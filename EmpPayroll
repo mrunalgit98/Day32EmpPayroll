@@ -1,0 +1,20 @@
+mysql> create database payroll_service;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use payroll_service;
+Database changed
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| addressbookservice |
+| employeedb         |
+| employeeedb        |
+| information_schema |
+| mysql              |
+| payroll_service    |
+| payrolls_service   |
+| performance_schema |
+| sys                |
++--------------------+
+9 rows in set (0.00 sec)
