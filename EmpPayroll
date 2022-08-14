@@ -113,3 +113,46 @@ mysql> +----+--------+----------+------------+
     -> +----+--------+----------+------------+
     -> 3 rows in set (0.00 sec)
 
+UC6
+
+mysql> alter table employee_payroll add gender char(1) after name;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee_payroll;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| id     | int          | NO   | PRI | NULL    | auto_increment |
+| name   | varchar(100) | NO   |     | NULL    |                |
+| gender | char(1)      | YES  |     | NULL    |                |
+| salary | double       | NO   |     | NULL    |                |
+| start  | date         | NO   |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> slect * from employee_payroll;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'slect * from employee_payroll' at line 1
+mysql> select * from employee_payroll;
++----+--------+--------+----------+------------+
+| id | name   | gender | salary   | start      |
++----+--------+--------+----------+------------+
+|  1 | mrunal | NULL   |    10000 | 2020-10-12 |
+|  2 | kunal  | NULL   |  1540000 | 2020-11-12 |
+|  3 | pratik | NULL   | 15400340 | 2021-11-12 |
++----+--------+--------+----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> update employee_payroll set gender ='M' where name ='mrunal' or name='kunal' or name='pratik';
+Query OK, 3 rows affected (0.00 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+--------+--------+----------+------------+
+| id | name   | gender | salary   | start      |
++----+--------+--------+----------+------------+
+|  1 | mrunal | M      |    10000 | 2020-10-12 |
+|  2 | kunal  | M      |  1540000 | 2020-11-12 |
+|  3 | pratik | M      | 15400340 | 2021-11-12 |
++----+--------+--------+----------+------------+
+3 rows in set (0.00 sec)
