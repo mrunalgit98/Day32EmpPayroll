@@ -175,3 +175,66 @@ mysql> select sum(salary) from employee_payroll where gender ='M' group by gende
 +-------------+
 1 row in set (0.00 sec)
 
+
+UC8
+
+
+mysql> show *from employee_payroll;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*from employee_payroll' at line 1
+mysql> show * from employee_payroll;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from employee_payroll' at line 1
+mysql> select * from employee_payroll;
++----+--------+--------------+--------+----------+------------+
+| id | name   | phone_number | gender | salary   | start      |
++----+--------+--------------+--------+----------+------------+
+|  1 | mrunal | NULL         | M      |    10000 | 2020-10-12 |
+|  2 | kunal  | NULL         | M      |  1540000 | 2020-11-12 |
+|  3 | pratik | NULL         | M      | 15400340 | 2021-11-12 |
++----+--------+--------------+--------+----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> alter table employee_payroll add department varchar(200)not null after address;
+ERROR 1054 (42S22): Unknown column 'address' in 'employee_payroll'
+mysql> alter table employee_payroll add department varchar(200)not null after Address;
+ERROR 1054 (42S22): Unknown column 'Address' in 'employee_payroll'
+mysql> alter table employee_payroll add department varchar(200)not null after phone_number;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+--------+--------------+------------+--------+----------+------------+
+| id | name   | phone_number | department | gender | salary   | start      |
++----+--------+--------------+------------+--------+----------+------------+
+|  1 | mrunal | NULL         |            | M      |    10000 | 2020-10-12 |
+|  2 | kunal  | NULL         |            | M      |  1540000 | 2020-11-12 |
+|  3 | pratik | NULL         |            | M      | 15400340 | 2021-11-12 |
++----+--------+--------------+------------+--------+----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> alter table employee_payroll add address varchar(200)after phone_number;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+--------+--------------+---------+------------+--------+----------+------------+
+| id | name   | phone_number | address | department | gender | salary   | start      |
++----+--------+--------------+---------+------------+--------+----------+------------+
+|  1 | mrunal | NULL         | NULL    |            | M      |    10000 | 2020-10-12 |
+|  2 | kunal  | NULL         | NULL    |            | M      |  1540000 | 2020-11-12 |
+|  3 | pratik | NULL         | NULL    |            | M      | 15400340 | 2021-11-12 |
++----+--------+--------------+---------+------------+--------+----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> alter table employee_payroll alter address set default 'ABC';
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+--------+--------------+---------+------------+--------+----------+------------+
+| id | name   | phone_number | address | department | gender | salary   | start      |
++----+--------+--------------+---------+------------+--------+----------+------------+
+|  1 | mrunal | NULL         | NULL    |            | M      |    10000 | 2020-10-12 |
+|  2 | kunal  | NULL         | NULL    |            | M      |  1540000 | 2020-11-12 |
+|  3 | pratik | NULL         | NULL    |            | M      | 15400340 | 2021-11-12 |
++----+--------+--------------+---------+------------+--------+----------+------------+
+3 rows in set (0.00 sec)
