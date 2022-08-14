@@ -34,3 +34,34 @@ mysql> desc employee_payroll;
 | start  | date         | NO   |     | NULL    |                |
 +--------+--------------+------+-----+---------+----------------+
 4 rows in set (0.01 sec)
+
+uc3
+
+mysql> insert into employee_payroll (name,salary,start) values ('mrunal','10000','2020-10-12');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from employee_payroll;
++----+--------+--------+------------+
+| id | name   | salary | start      |
++----+--------+--------+------------+
+|  1 | mrunal |  10000 | 2020-10-12 |
++----+--------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> insert into employee_payroll (name,salary,start) values ('kunal','1540000',2020-11-12);
+ERROR 1292 (22007): Incorrect date value: '1997' for column 'start' at row 1
+mysql> insert into employee_payroll (name,salary,start) values ('kunal','1540000','2020-11-12');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee_payroll (name,salary,start) values ('pratik','15400340','2021-11-12');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from employee_payroll;
++----+--------+----------+------------+
+| id | name   | salary   | start      |
++----+--------+----------+------------+
+|  1 | mrunal |    10000 | 2020-10-12 |
+|  2 | kunal  |  1540000 | 2020-11-12 |
+|  3 | pratik | 15400340 | 2021-11-12 |
++----+--------+----------+------------+
+3 rows in set (0.00 sec)
