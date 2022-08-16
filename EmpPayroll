@@ -1,8 +1,5 @@
-mysql> create database payroll_service;
-Query OK, 1 row affected (0.00 sec)
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-mysql> use payroll_service;
-Database changed
 mysql> show databases;
 +--------------------+
 | Database           |
@@ -13,313 +10,251 @@ mysql> show databases;
 | information_schema |
 | mysql              |
 | payroll_service    |
-| payrolls_service   |
 | performance_schema |
 | sys                |
 +--------------------+
-9 rows in set (0.00 sec)
+8 rows in set (0.00 sec)
 
-mysql> create table employee_payroll(id int not null auto_increment,name varchar(100)not null,salary double not null,start date not null,primary key(id));
-Query OK, 0 rows affected (0.02 sec)
+mysql> create empPayroll database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'empPayroll database' at line 1
+mysql> create empPayroll;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'empPayroll' at line 1
+mysql> create database empPayroll;
+Query OK, 1 row affected (0.00 sec)
 
+mysql> use empPayroll;
+Database changed
+mysql> create table emp_payroll(ID int not null auto_increament,Name varchar(200)not null,Salary double not null,Start date not null,primary key(ID));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'auto_increament,Name varchar(200)not null,Salary double not null,Start date not ' at line 1
+mysql> create table emp_payroll(ID int not null auto_increment,Name varchar(200)not null,Salary double not null,Start date not null,primary key(ID));
+Query OK, 0 rows affected (0.01 sec)
 
-//UC2
-mysql> desc employee_payroll;
+mysql> desc emp_payroll;
 +--------+--------------+------+-----+---------+----------------+
 | Field  | Type         | Null | Key | Default | Extra          |
 +--------+--------------+------+-----+---------+----------------+
-| id     | int          | NO   | PRI | NULL    | auto_increment |
-| name   | varchar(100) | NO   |     | NULL    |                |
-| salary | double       | NO   |     | NULL    |                |
-| start  | date         | NO   |     | NULL    |                |
+| ID     | int          | NO   | PRI | NULL    | auto_increment |
+| Name   | varchar(200) | NO   |     | NULL    |                |
+| Salary | double       | NO   |     | NULL    |                |
+| Start  | date         | NO   |     | NULL    |                |
 +--------+--------------+------+-----+---------+----------------+
-4 rows in set (0.01 sec)
+4 rows in set (0.00 sec)
 
-uc3
+mysql> insert into emp_payroll (Name,Salary,Start) values ("mrunal",100000,'2020-08-20'),('kunal',200000,'2020-09-29'),
+    -> ('pratik',200001,'2021-09-30'),
+    -> ('ram',300000,'2021-08-21');
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
 
-mysql> insert into employee_payroll (name,salary,start) values ('mrunal','10000','2020-10-12');
-Query OK, 1 row affected (0.00 sec)
+mysql> select * from emp_payroll;
++----+--------+--------+------------+
+| ID | Name   | Salary | Start      |
++----+--------+--------+------------+
+|  1 | mrunal | 100000 | 2020-08-20 |
+|  2 | kunal  | 200000 | 2020-09-29 |
+|  3 | pratik | 200001 | 2021-09-30 |
+|  4 | ram    | 300000 | 2021-08-21 |
++----+--------+--------+------------+
+4 rows in set (0.00 sec)
 
-mysql> select * from employee_payroll;
-+----+--------+--------+------------+
-| id | name   | salary | start      |
-+----+--------+--------+------------+
-|  1 | mrunal |  10000 | 2020-10-12 |
-+----+--------+--------+------------+
+mysql> select salary from emp_payroll where name='kunal';
++--------+
+| salary |
++--------+
+| 200000 |
++--------+
 1 row in set (0.00 sec)
 
-mysql> insert into employee_payroll (name,salary,start) values ('kunal','1540000',2020-11-12);
-ERROR 1292 (22007): Incorrect date value: '1997' for column 'start' at row 1
-mysql> insert into employee_payroll (name,salary,start) values ('kunal','1540000','2020-11-12');
-Query OK, 1 row affected (0.00 sec)
+mysql> select salary from emp_payroll where start between cast('2019-09-20' as date) and date(now());
++--------+
+| salary |
++--------+
+| 100000 |
+| 200000 |
+| 200001 |
+| 300000 |
++--------+
+4 rows in set (0.00 sec)
 
-mysql> insert into employee_payroll (name,salary,start) values ('pratik','15400340','2021-11-12');
-Query OK, 1 row affected (0.00 sec)
+mysql> select salary from emp_payroll where start between cast('2021-09-20' as date) and date(now());
++--------+
+| salary |
++--------+
+| 200001 |
++--------+
+1 row in set (0.00 sec)
 
-mysql> select * from employee_payroll;
-+----+--------+----------+------------+
-| id | name   | salary   | start      |
-+----+--------+----------+------------+
-|  1 | mrunal |    10000 | 2020-10-12 |
-|  2 | kunal  |  1540000 | 2020-11-12 |
-|  3 | pratik | 15400340 | 2021-11-12 |
-+----+--------+----------+------------+
-3 rows in set (0.00 sec)
-
-uc4
-
-mysql> select * from employee_payroll;
-+----+--------+----------+------------+
-| id | name   | salary   | start      |
-+----+--------+----------+------------+
-|  1 | mrunal |    10000 | 2020-10-12 |
-|  2 | kunal  |  1540000 | 2020-11-12 |
-|  3 | pratik | 15400340 | 2021-11-12 |
-+----+--------+----------+------------+
-3 rows in set (0.00 sec)
-
-
-UC5
-
-
-mysql> select salary from employee_payroll where start between cast('2020-10-12' as date)and date(now());
-+----------+
-| salary   |
-+----------+
-|    10000 |
-|  1540000 |
-| 15400340 |
-+----------+
-3 rows in set (0.00 sec)
-
-mysql> select * from employee_payroll where start between cast('2020-10-12' as date)and date(now());
-+----+--------+----------+------------+
-| id | name   | salary   | start      |
-+----+--------+----------+------------+
-|  1 | mrunal |    10000 | 2020-10-12 |
-|  2 | kunal  |  1540000 | 2020-11-12 |
-|  3 | pratik | 15400340 | 2021-11-12 |
-+----+--------+----------+------------+
-3 rows in set (0.00 sec)
-
-mysql> mysql> select * from employee_payroll;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql> select * from employee_payroll' at line 1
-mysql> +----+--------+----------+------------+
-    -> | id | name   | salary   | start      |
-    -> +----+--------+----------+------------+
-    -> |  1 | mrunal |    10000 | 2020-10-12 |
-    -> |  2 | kunal  |  1540000 | 2020-11-12 |
-    -> |  3 | pratik | 15400340 | 2021-11-12 |
-    -> +----+--------+----------+------------+
-    -> 3 rows in set (0.00 sec)
-
-UC6
-
-mysql> alter table employee_payroll add gender char(1) after name;
+mysql> alter table employee_payroll ADD Gender char(1) AFTER Name;
+ERROR 1146 (42S02): Table 'emppayroll.employee_payroll' doesn't exist
+mysql> alter table emp_payroll ADD Gender char(1) AFTER Name;
 Query OK, 0 rows affected (0.01 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> desc employee_payroll;
-+--------+--------------+------+-----+---------+----------------+
-| Field  | Type         | Null | Key | Default | Extra          |
-+--------+--------------+------+-----+---------+----------------+
-| id     | int          | NO   | PRI | NULL    | auto_increment |
-| name   | varchar(100) | NO   |     | NULL    |                |
-| gender | char(1)      | YES  |     | NULL    |                |
-| salary | double       | NO   |     | NULL    |                |
-| start  | date         | NO   |     | NULL    |                |
-+--------+--------------+------+-----+---------+----------------+
-5 rows in set (0.00 sec)
-
-mysql> slect * from employee_payroll;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'slect * from employee_payroll' at line 1
-mysql> select * from employee_payroll;
-+----+--------+--------+----------+------------+
-| id | name   | gender | salary   | start      |
-+----+--------+--------+----------+------------+
-|  1 | mrunal | NULL   |    10000 | 2020-10-12 |
-|  2 | kunal  | NULL   |  1540000 | 2020-11-12 |
-|  3 | pratik | NULL   | 15400340 | 2021-11-12 |
-+----+--------+--------+----------+------------+
-3 rows in set (0.00 sec)
-
-mysql> update employee_payroll set gender ='M' where name ='mrunal' or name='kunal' or name='pratik';
+mysql> update emp_payroll set gender ='M' where Name='mrunal' or Name='kunal' or name='ram';
 Query OK, 3 rows affected (0.00 sec)
 Rows matched: 3  Changed: 3  Warnings: 0
 
-mysql> select * from employee_payroll;
-+----+--------+--------+----------+------------+
-| id | name   | gender | salary   | start      |
-+----+--------+--------+----------+------------+
-|  1 | mrunal | M      |    10000 | 2020-10-12 |
-|  2 | kunal  | M      |  1540000 | 2020-11-12 |
-|  3 | pratik | M      | 15400340 | 2021-11-12 |
-+----+--------+--------+----------+------------+
-3 rows in set (0.00 sec)
-
-UC7
-
-mysql> select avg(salary) from employee_payroll where gender='M' group by gender;
-+-------------------+
-| avg(salary)       |
-+-------------------+
-| 5650113.333333333 |
-+-------------------+
-1 row in set (0.00 sec)
-
-mysql> select sum(salary) from employee_payroll where gender ='M' group by gender;
-+-------------+
-| sum(salary) |
-+-------------+
-|    16950340 |
-+-------------+
-1 row in set (0.00 sec)
-
-
-UC8
-
-
-mysql> show *from employee_payroll;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*from employee_payroll' at line 1
-mysql> show * from employee_payroll;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from employee_payroll' at line 1
-mysql> select * from employee_payroll;
-+----+--------+--------------+--------+----------+------------+
-| id | name   | phone_number | gender | salary   | start      |
-+----+--------+--------------+--------+----------+------------+
-|  1 | mrunal | NULL         | M      |    10000 | 2020-10-12 |
-|  2 | kunal  | NULL         | M      |  1540000 | 2020-11-12 |
-|  3 | pratik | NULL         | M      | 15400340 | 2021-11-12 |
-+----+--------+--------------+--------+----------+------------+
-3 rows in set (0.00 sec)
-
-mysql> alter table employee_payroll add department varchar(200)not null after address;
-ERROR 1054 (42S22): Unknown column 'address' in 'employee_payroll'
-mysql> alter table employee_payroll add department varchar(200)not null after Address;
-ERROR 1054 (42S22): Unknown column 'Address' in 'employee_payroll'
-mysql> alter table employee_payroll add department varchar(200)not null after phone_number;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> select * from employee_payroll;
-+----+--------+--------------+------------+--------+----------+------------+
-| id | name   | phone_number | department | gender | salary   | start      |
-+----+--------+--------------+------------+--------+----------+------------+
-|  1 | mrunal | NULL         |            | M      |    10000 | 2020-10-12 |
-|  2 | kunal  | NULL         |            | M      |  1540000 | 2020-11-12 |
-|  3 | pratik | NULL         |            | M      | 15400340 | 2021-11-12 |
-+----+--------+--------------+------------+--------+----------+------------+
-3 rows in set (0.00 sec)
-
-mysql> alter table employee_payroll add address varchar(200)after phone_number;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> select * from employee_payroll;
-+----+--------+--------------+---------+------------+--------+----------+------------+
-| id | name   | phone_number | address | department | gender | salary   | start      |
-+----+--------+--------------+---------+------------+--------+----------+------------+
-|  1 | mrunal | NULL         | NULL    |            | M      |    10000 | 2020-10-12 |
-|  2 | kunal  | NULL         | NULL    |            | M      |  1540000 | 2020-11-12 |
-|  3 | pratik | NULL         | NULL    |            | M      | 15400340 | 2021-11-12 |
-+----+--------+--------------+---------+------------+--------+----------+------------+
-3 rows in set (0.00 sec)
-
-mysql> alter table employee_payroll alter address set default 'ABC';
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> select * from employee_payroll;
-+----+--------+--------------+---------+------------+--------+----------+------------+
-| id | name   | phone_number | address | department | gender | salary   | start      |
-+----+--------+--------------+---------+------------+--------+----------+------------+
-|  1 | mrunal | NULL         | NULL    |            | M      |    10000 | 2020-10-12 |
-|  2 | kunal  | NULL         | NULL    |            | M      |  1540000 | 2020-11-12 |
-|  3 | pratik | NULL         | NULL    |            | M      | 15400340 | 2021-11-12 |
-+----+--------+--------------+---------+------------+--------+----------+------------+
-3 rows in set (0.00 sec)
-
-UC9
-
-ysql> alter table employee_payroll rename column salary to basic_pay;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> select * from employee_payroll;
-+----+--------+--------------+---------+------------+--------+-----------+------------+
-| id | name   | phone_number | address | department | gender | basic_pay | start      |
-+----+--------+--------------+---------+------------+--------+-----------+------------+
-|  1 | mrunal | NULL         | NULL    |            | M      |     10000 | 2020-10-12 |
-|  2 | kunal  | NULL         | NULL    |            | M      |   1540000 | 2020-11-12 |
-|  3 | pratik | NULL         | NULL    |            | M      |  15400340 | 2021-11-12 |
-+----+--------+--------------+---------+------------+--------+-----------+------------+
-3 rows in set (0.00 sec)
-
-mysql> alter table employee_payroll add deduction double not null after basic_pay
-    -> ^C
-mysql> alter table employee_payroll add deduction double not null after basic_pay;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> select * from employee_payroll;
-+----+--------+--------------+---------+------------+--------+-----------+-----------+------------+
-| id | name   | phone_number | address | department | gender | basic_pay | deduction | start      |
-+----+--------+--------------+---------+------------+--------+-----------+-----------+------------+
-|  1 | mrunal | NULL         | NULL    |            | M      |     10000 |         0 | 2020-10-12 |
-|  2 | kunal  | NULL         | NULL    |            | M      |   1540000 |         0 | 2020-11-12 |
-|  3 | pratik | NULL         | NULL    |            | M      |  15400340 |         0 | 2021-11-12 |
-+----+--------+--------------+---------+------------+--------+-----------+-----------+------------+
-3 rows in set (0.00 sec)
-
-mysql> alter table employee_payroll add taxable_pay double not null after deduction;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> select * from employee_payroll;
-+----+--------+--------------+---------+------------+--------+-----------+-----------+-------------+------------+
-| id | name   | phone_number | address | department | gender | basic_pay | deduction | taxable_pay | start      |
-+----+--------+--------------+---------+------------+--------+-----------+-----------+-------------+------------+
-|  1 | mrunal | NULL         | NULL    |            | M      |     10000 |         0 |           0 | 2020-10-12 |
-|  2 | kunal  | NULL         | NULL    |            | M      |   1540000 |         0 |           0 | 2020-11-12 |
-|  3 | pratik | NULL         | NULL    |            | M      |  15400340 |         0 |           0 | 2021-11-12 |
-+----+--------+--------------+---------+------------+--------+-----------+-----------+-------------+------------+
-3 rows in set (0.00 sec)
-
-mysql> Alter table employee_payroll Add Net_Pay Double not null after Income_Tax;
-ERROR 1054 (42S22): Unknown column 'Income_Tax' in 'employee_payroll'
-mysql> Alter table employee_payroll Add Income_Tax Double not null after taxable_pay;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> Alter table employee_payroll Add Net_Pay Double not null after Income_Tax;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> select * from employee_payroll;
-+----+--------+--------------+---------+------------+--------+-----------+-----------+-------------+------------+---------+------------+
-| id | name   | phone_number | address | department | gender | basic_pay | deduction | taxable_pay | Income_Tax | Net_Pay | start      |
-+----+--------+--------------+---------+------------+--------+-----------+-----------+-------------+------------+---------+------------+
-|  1 | mrunal | NULL         | NULL    |            | M      |     10000 |         0 |           0 |          0 |       0 | 2020-10-12 |
-|  2 | kunal  | NULL         | NULL    |            | M      |   1540000 |         0 |           0 |          0 |       0 | 2020-11-12 |
-|  3 | pratik | NULL         | NULL    |            | M      |  15400340 |         0 |           0 |          0 |       0 | 2021-11-12 |
-+----+--------+--------------+---------+------------+--------+-----------+-----------+-------------+------------+---------+------------+
-3 rows in set (0.00 sec)
-
-
-
-UC10
-
-
-mysql> Insert into employee_payroll (name, phone_number,department, gender, basic_pay, deduction, taxable_pay, Income_Tax, Net_Pay,start) values ('Terissa','9060808010', 'Marketing', 'F', '400000', '200000', '10000', '500000', '200000', '2018-01-01');
+mysql> update emp_payroll set gender ='F' where Name='pratik';
 Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
 
-mysql> select * from employee_payroll;
-+----+---------+--------------+---------+------------+--------+-----------+-----------+-------------+------------+---------+------------+
-| id | name    | phone_number | address | department | gender | basic_pay | deduction | taxable_pay | Income_Tax | Net_Pay | start      |
-+----+---------+--------------+---------+------------+--------+-----------+-----------+-------------+------------+---------+------------+
-|  1 | mrunal  | NULL         | NULL    |            | M      |     10000 |         0 |           0 |          0 |       0 | 2020-10-12 |
-|  2 | kunal   | NULL         | NULL    |            | M      |   1540000 |         0 |           0 |          0 |       0 | 2020-11-12 |
-|  3 | pratik  | NULL         | NULL    | sales      | M      |  15400340 |         0 |           0 |          0 |       0 | 2021-11-12 |
-|  4 | Terissa | 9060808010   | ABC     | Marketing  | F      |    400000 |    200000 |       10000 |     500000 |  200000 | 2018-01-01 |
-+----+---------+--------------+---------+------------+--------+-----------+-----------+-------------+------------+---------+------------+
+mysql> slelct * from emp_payroll;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'slelct * from emp_payroll' at line 1
+mysql> select * from emp_payroll;
++----+--------+--------+--------+------------+
+| ID | Name   | Gender | Salary | Start      |
++----+--------+--------+--------+------------+
+|  1 | mrunal | M      | 100000 | 2020-08-20 |
+|  2 | kunal  | M      | 200000 | 2020-09-29 |
+|  3 | pratik | F      | 200001 | 2021-09-30 |
+|  4 | ram    | M      | 300000 | 2021-08-21 |
++----+--------+--------+--------+------------+
 4 rows in set (0.00 sec)
+
+mysql> select Gender,SUM(Salary)From emp_payroll GROUP BY Gender;
++--------+-------------+
+| Gender | SUM(Salary) |
++--------+-------------+
+| M      |      600000 |
+| F      |      200001 |
++--------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select Gender,count(Salary)From emp_payroll GROUP BY Gender;
++--------+---------------+
+| Gender | count(Salary) |
++--------+---------------+
+| M      |             3 |
+| F      |             1 |
++--------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> alter table emp_payroll
+    -> ADD Phone varchar(250) after Name,
+    -> ADD Address varchar(250) after Phone,
+    -> ADD Department VARCHAR(250)NOT NULL AFTER Address;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp_payroll;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| ID         | int          | NO   | PRI | NULL    | auto_increment |
+| Name       | varchar(200) | NO   |     | NULL    |                |
+| Phone      | varchar(250) | YES  |     | NULL    |                |
+| Address    | varchar(250) | YES  |     | NULL    |                |
+| Department | varchar(250) | NO   |     | NULL    |                |
+| Gender     | char(1)      | YES  |     | NULL    |                |
+| Salary     | double       | NO   |     | NULL    |                |
+| Start      | date         | NO   |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> alter table emp_payroll rename column Salary to basicPay;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp_payroll;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| ID         | int          | NO   | PRI | NULL    | auto_increment |
+| Name       | varchar(200) | NO   |     | NULL    |                |
+| Phone      | varchar(250) | YES  |     | NULL    |                |
+| Address    | varchar(250) | YES  |     | NULL    |                |
+| Department | varchar(250) | NO   |     | NULL    |                |
+| Gender     | char(1)      | YES  |     | NULL    |                |
+| basicPay   | double       | NO   |     | NULL    |                |
+| Start      | date         | NO   |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> alter table emp_payroll
+    -> ADD Deduction not null AFTER basicPay,
+    -> alter table emp_payroll
+    -> ^C
+mysql> alter table emp_payroll
+    -> ADD Deduction double not null AFTER basicPay,
+    -> ADD taxable double not null AFTER Deduction,
+    -> ADD incomeTax double not null AFTER taxable,
+    -> ADD NetPay double not null AFTER incomeTax,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+mysql> alter table emp_payroll
+    -> ADD Deduction double not null AFTER basicPay,
+    -> ADD taxable double not null AFTER Deduction,
+    -> ADD incomeTax double not null AFTER taxable,
+    -> ADD NetPay double not null AFTER incomeTax;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp_payroll;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| ID         | int          | NO   | PRI | NULL    | auto_increment |
+| Name       | varchar(200) | NO   |     | NULL    |                |
+| Phone      | varchar(250) | YES  |     | NULL    |                |
+| Address    | varchar(250) | YES  |     | NULL    |                |
+| Department | varchar(250) | NO   |     | NULL    |                |
+| Gender     | char(1)      | YES  |     | NULL    |                |
+| basicPay   | double       | NO   |     | NULL    |                |
+| Deduction  | double       | NO   |     | NULL    |                |
+| taxable    | double       | NO   |     | NULL    |                |
+| incomeTax  | double       | NO   |     | NULL    |                |
+| NetPay     | double       | NO   |     | NULL    |                |
+| Start      | date         | NO   |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+12 rows in set (0.00 sec)
+
+mysql> insert into emp_payroll(Name,Department,Gender, basicPay, Deduction, taxablePay, incomeTax, NetPay, Start) values ('Terisa','Sales','F',400000.0,70000.0,3000.0,1500.0,400200.0,'2020-01-27'), ('Terisa','Marketing','F',500000.0,80500.0,3500.0,2500.0,400200.0,'2021-01-27');
+ERROR 1054 (42S22): Unknown column 'taxablePay' in 'field list'
+mysql> insert into emp_payroll(Name,Department,Gender, basicPay, Deduction, taxablePay, incomeTax, NetPay, Start) values ('Terisa','Sales','F',400000,70000,3000,1500,400200,'2020-01-27'), ('Terisa','Marketing','F',500000,80500,3500,2500,400200,'2021-01-27');
+ERROR 1054 (42S22): Unknown column 'taxablePay' in 'field list'
+mysql> insert into emp_payroll(Name,Department,Gender, basicPay, Deduction, taxable, incomeTax, NetPay, Start) values ('Terisa','Sales','F',400000.0,70000.0,3000.0,1500.0,400200.0,'2020-01-27'), ('Terisa','Marketing','F',500000.0,80500.0,3500.0,2500.0,400200.0,'2021-01-27');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from emp_payroll;
++----+--------+-------+---------+------------+--------+----------+-----------+---------+-----------+--------+------------+
+| ID | Name   | Phone | Address | Department | Gender | basicPay | Deduction | taxable | incomeTax | NetPay | Start      |
++----+--------+-------+---------+------------+--------+----------+-----------+---------+-----------+--------+------------+
+|  1 | mrunal | NULL  | NULL    |            | M      |   100000 |         0 |       0 |         0 |      0 | 2020-08-20 |
+|  2 | kunal  | NULL  | NULL    |            | M      |   200000 |         0 |       0 |         0 |      0 | 2020-09-29 |
+|  3 | pratik | NULL  | NULL    |            | F      |   200001 |         0 |       0 |         0 |      0 | 2021-09-30 |
+|  4 | ram    | NULL  | NULL    |            | M      |   300000 |         0 |       0 |         0 |      0 | 2021-08-21 |
+|  5 | Terisa | NULL  | NULL    | Sales      | F      |   400000 |     70000 |    3000 |      1500 | 400200 | 2020-01-27 |
+|  6 | Terisa | NULL  | NULL    | Marketing  | F      |   500000 |     80500 |    3500 |      2500 | 400200 | 2021-01-27 |
++----+--------+-------+---------+------------+--------+----------+-----------+---------+-----------+--------+------------+
+6 rows in set (0.00 sec)
+
+mysql> create table company (CompanyId int primary key,companyName varchar(250) not null);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table employee (id int unsigned not null auto_increament primary key, CompanyId int REFERENCES company(CompanyId),Name varchar(200) not null,Phone varchar(20)not null,Address varchar(50)not null default 'default',Gender char(1) not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'auto_increament primary key, CompanyId int REFERENCES company(CompanyId),Name va' at line 1
+mysql> create table employee (id int unsigned not null auto_increment primary key, CompanyId int REFERENCES company(CompanyId),Name varchar(200) not null,Phone varchar(20)not null,Address varchar(50)not null default 'default',Gender char(1) not null);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table payroll(id int references employee(id),basicPay double not null,Deduction double not null,taxable double not null,incomeTax double not null,NetPay double not null);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table department(deptID int primary key,deptName varchar(50) not null);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table emp_department(empID int references employee(Id),DeptId int references department (DeptId));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
++----------------------+
+| Tables_in_emppayroll |
++----------------------+
+| company              |
+| department           |
+| emp_department       |
+| emp_payroll          |
+| employee             |
+| payroll              |
++----------------------+
+6 rows in set (0.00 sec)
