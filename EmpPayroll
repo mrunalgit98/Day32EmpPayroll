@@ -258,3 +258,157 @@ mysql> show tables;
 | payroll              |
 +----------------------+
 6 rows in set (0.00 sec)
+
+
+ysql> show tables;
++----------------------+
+| Tables_in_emppayroll |
++----------------------+
+| company              |
+| department           |
+| emp_department       |
+| emp_payroll          |
+| employee             |
+| payroll              |
++----------------------+
+6 rows in set (0.00 sec)
+
+mysql> insert into company values(1,"apple");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from company;
++-----------+-------------+
+| CompanyId | companyName |
++-----------+-------------+
+|         1 | apple       |
++-----------+-------------+
+1 row in set (0.00 sec)
+
+mysql> insert into employee(CompanyId,Name,Phone,Address,Gender) VALUES (1,'SURAJ','21212232','abcd',M'),(1,'KESAV','23233',ACBC','F');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''),(1,'KESAV','23233',ACBC','F')' at line 1
+mysql> insert into employee(CompanyId,Name,Phone,Address,Gender) VALUES (1,'SURAJ','21212232','abcd',M'),(1,'KESAV','23233','ACBC','F');
+    '> ^C
+mysql> insert into employee(CompanyId,Name,Phone,Address,Gender) VALUES (1,'SURAJ','21212232','abcd',M'),(1,'KESAV','23233','ACBC','F');
+    '> ^C
+mysql> insert into employee(CompanyId,Name,Phone,Address,Gender) VALUES (1,'SURAJ','21212232','abcd','M'),(1,'KESAV','23233','ACBC','F');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> show * from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from employee' at line 1
+mysql> select * from employee;
++----+-----------+-------+----------+---------+--------+
+| id | CompanyId | Name  | Phone    | Address | Gender |
++----+-----------+-------+----------+---------+--------+
+|  1 |         1 | SURAJ | 21212232 | abcd    | M      |
+|  2 |         1 | KESAV | 23233    | ACBC    | F      |
++----+-----------+-------+----------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> insert into department values (1,'sales'),(2,'marketing');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++----+-----------+-------+----------+---------+--------+
+| id | CompanyId | Name  | Phone    | Address | Gender |
++----+-----------+-------+----------+---------+--------+
+|  1 |         1 | SURAJ | 21212232 | abcd    | M      |
+|  2 |         1 | KESAV | 23233    | ACBC    | F      |
++----+-----------+-------+----------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from department
+    -> select * from department
+    -> ^C
+mysql> Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+    ->
+    -> mysql> show databases;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+' at line 1
+mysql> +--------------------+
+    -> | Database           |
+    -> +--------------------+
+    -> | addressbookservice |
+    -> | employeedb         |
+    -> | employeeedb        |
+    -> | information_schema |
+    -> | mysql              |
+    -> | payroll_service    |
+    -> | performance_schema |
+    -> | sys                |
+    -> +--------------------+
+    -> 8 rows in set (0.00 sec)
+    ->
+    -> mysql> create empPayroll database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+--------------------+
+| Database           |
++--------------------+
+| addressbo' at line 1
+mysql> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'empPayroll database' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ERROR 1064 (42000): You have an error in your SQL syntax' at line 1
+    -> mysql> create empPayroll;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'the manual that corresponds to your MySQL server version for the right syntax to' at line 1
+mysql> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'empPayroll' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ERROR 1064 (42000): You have an error in your SQL syntax' at line 1
+    -> mysql> create database empPayroll;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'the manual that corresponds to your MySQL server version for the right syntax to' at line 1
+mysql> Query OK, 1 row affected (0.00 sec)
+    ->
+    -> mysql> use empPayroll;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Query OK, 1 row affected (0.00 sec)
+
+mysql> use empPayroll' at line 1
+mysql> Database changed
+    -> mysql> create table emp_payroll(ID int not null auto_increament,Name varchar(200)not null,Salary double not null,Start date not null,primary key(ID));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Database changed
+mysql> create table emp_payroll(ID int not null auto_increament' at line 1
+mysql> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'auto_increament,Name varchar(200)not null,Salary double not null,Start date not ' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ERROR 1064 (42000): You have an error in your SQL syntax' at line 1
+    -> mysql> create table emp_payroll(ID int not null auto_increment,Name varchar(200)not null,Salary double not null,Start date not null,primary key(ID));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'the manual that corresponds to your MySQL server version for the right syntax to' at line 1
+mysql> Query OK, 0 rows affected (0.01 sec)
+    ->
+    
+    mysql> select * from department;
++--------+-----------+
+| deptID | deptName  |
++--------+-----------+
+|      1 | sales     |
+|      2 | marketing |
++--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into payroll values (1,20000,420,3000,500,10000),(2,9000,150,3000,400,2020);
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from payroll;
++------+----------+-----------+---------+-----------+--------+
+| id   | basicPay | Deduction | taxable | incomeTax | NetPay |
++------+----------+-----------+---------+-----------+--------+
+|    1 |    20000 |       420 |    3000 |       500 |  10000 |
+|    2 |     9000 |       150 |    3000 |       400 |   2020 |
++------+----------+-----------+---------+-----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> insert into employee_department values (1,1),(2,2);
+ERROR 1146 (42S02): Table 'emppayroll.employee_department' doesn't exist
+mysql> insert into emp_department values (1,1),(2,2);
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from emp_department;
++-------+--------+
+| empID | DeptId |
++-------+--------+
+|     1 |      1 |
+|     2 |      2 |
++-------+--------+
+2 rows in set (0.00 sec)
+
+mysql>
+
+
+    
