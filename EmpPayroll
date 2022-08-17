@@ -1,414 +1,462 @@
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| addressbookservice |
+| feedback           |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> create database EmployeePayroll;
+Query OK, 1 row affected (0.00 sec)
 
 mysql> show databases;
 +--------------------+
 | Database           |
 +--------------------+
 | addressbookservice |
-| employeedb         |
-| employeeedb        |
+| employeepayroll    |
+| feedback           |
 | information_schema |
 | mysql              |
-| payroll_service    |
 | performance_schema |
-| sys                |
 +--------------------+
-8 rows in set (0.00 sec)
+6 rows in set (0.00 sec)
 
-mysql> create empPayroll database;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'empPayroll database' at line 1
-mysql> create empPayroll;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'empPayroll' at line 1
-mysql> create database empPayroll;
-Query OK, 1 row affected (0.00 sec)
-
-mysql> use empPayroll;
+mysql> use employeepayroll;
 Database changed
-mysql> create table emp_payroll(ID int not null auto_increament,Name varchar(200)not null,Salary double not null,Start date not null,primary key(ID));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'auto_increament,Name varchar(200)not null,Salary double not null,Start date not ' at line 1
-mysql> create table emp_payroll(ID int not null auto_increment,Name varchar(200)not null,Salary double not null,Start date not null,primary key(ID));
+mysql> create table employee_payroll ( id INT unsigned NOT NULL AUTO_INCREMENT, fName varchar(30), lName varchar(30), start date , salary double,PRIMARY KEY  (id));
 Query OK, 0 rows affected (0.01 sec)
 
-mysql> desc emp_payroll;
+mysql>  DESc employee_payroll;
 +--------+--------------+------+-----+---------+----------------+
 | Field  | Type         | Null | Key | Default | Extra          |
 +--------+--------------+------+-----+---------+----------------+
-| ID     | int          | NO   | PRI | NULL    | auto_increment |
-| Name   | varchar(200) | NO   |     | NULL    |                |
-| Salary | double       | NO   |     | NULL    |                |
-| Start  | date         | NO   |     | NULL    |                |
+| id     | int unsigned | NO   | PRI | NULL    | auto_increment |
+| fName  | varchar(30)  | YES  |     | NULL    |                |
+| lName  | varchar(30)  | YES  |     | NULL    |                |
+| start  | date         | YES  |     | NULL    |                |
+| salary | double       | YES  |     | NULL    |                |
 +--------+--------------+------+-----+---------+----------------+
-4 rows in set (0.00 sec)
+5 rows in set (0.00 sec)
 
-mysql> insert into emp_payroll (Name,Salary,Start) values ("mrunal",100000,'2020-08-20'),('kunal',200000,'2020-09-29'),
-    -> ('pratik',200001,'2021-09-30'),
-    -> ('ram',300000,'2021-08-21');
+mysql> INSERT INTO employee_payroll (fName,lName,start,salary) VALUES('Bill','gate','2018-01-03',1930238),('Terisa','William','2019-11-13',13527982), ('Charlie','gates','2020-05-21',3232267),('jeff','gates','2020-05-20',324343267);
 Query OK, 4 rows affected (0.00 sec)
 Records: 4  Duplicates: 0  Warnings: 0
 
-mysql> select * from emp_payroll;
-+----+--------+--------+------------+
-| ID | Name   | Salary | Start      |
-+----+--------+--------+------------+
-|  1 | mrunal | 100000 | 2020-08-20 |
-|  2 | kunal  | 200000 | 2020-09-29 |
-|  3 | pratik | 200001 | 2021-09-30 |
-|  4 | ram    | 300000 | 2021-08-21 |
-+----+--------+--------+------------+
+mysql> SELECT * FROM employee_payroll;
++----+---------+---------+------------+-----------+
+| id | fName   | lName   | start      | salary    |
++----+---------+---------+------------+-----------+
+|  1 | Bill    | gate    | 2018-01-03 |   1930238 |
+|  2 | Terisa  | William | 2019-11-13 |  13527982 |
+|  3 | Charlie | gates   | 2020-05-21 |   3232267 |
+|  4 | jeff    | gates   | 2020-05-20 | 324343267 |
++----+---------+---------+------------+-----------+
 4 rows in set (0.00 sec)
 
-mysql> select salary from emp_payroll where name='kunal';
-+--------+
-| salary |
-+--------+
-| 200000 |
-+--------+
+mysql> SELECT salary FROM employee_payroll WHERE fname = 'Bill';
++---------+
+| salary  |
++---------+
+| 1930238 |
++---------+
 1 row in set (0.00 sec)
 
-mysql> select salary from emp_payroll where start between cast('2019-09-20' as date) and date(now());
-+--------+
-| salary |
-+--------+
-| 100000 |
-| 200000 |
-| 200001 |
-| 300000 |
-+--------+
+mysql>  SELECT * FROM employee_payroll WHERE start BETWEEN CAST('2018-01-01' AS DATE) AND DATE(NOW());
++----+---------+---------+------------+-----------+
+| id | fName   | lName   | start      | salary    |
++----+---------+---------+------------+-----------+
+|  1 | Bill    | gate    | 2018-01-03 |   1930238 |
+|  2 | Terisa  | William | 2019-11-13 |  13527982 |
+|  3 | Charlie | gates   | 2020-05-21 |   3232267 |
+|  4 | jeff    | gates   | 2020-05-20 | 324343267 |
++----+---------+---------+------------+-----------+
 4 rows in set (0.00 sec)
 
-mysql> select salary from emp_payroll where start between cast('2021-09-20' as date) and date(now());
-+--------+
-| salary |
-+--------+
-| 200001 |
-+--------+
-1 row in set (0.00 sec)
+mysql>  SELECT * FROM employee_payroll WHERE start BETWEEN CAST('2020-01-01' AS DATE) AND DATE(NOW());
++----+---------+-------+------------+-----------+
+| id | fName   | lName | start      | salary    |
++----+---------+-------+------------+-----------+
+|  3 | Charlie | gates | 2020-05-21 |   3232267 |
+|  4 | jeff    | gates | 2020-05-20 | 324343267 |
++----+---------+-------+------------+-----------+
+2 rows in set (0.00 sec)
 
-mysql> alter table employee_payroll ADD Gender char(1) AFTER Name;
-ERROR 1146 (42S02): Table 'emppayroll.employee_payroll' doesn't exist
-mysql> alter table emp_payroll ADD Gender char(1) AFTER Name;
+mysql> ALTER TABLE employee_payroll ADD gender CHAR(7) AFTER lname;
 Query OK, 0 rows affected (0.01 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> update emp_payroll set gender ='M' where Name='mrunal' or Name='kunal' or name='ram';
-Query OK, 3 rows affected (0.00 sec)
-Rows matched: 3  Changed: 3  Warnings: 0
+mysql>  desc employee_payroll;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| id     | int unsigned | NO   | PRI | NULL    | auto_increment |
+| fName  | varchar(30)  | YES  |     | NULL    |                |
+| lName  | varchar(30)  | YES  |     | NULL    |                |
+| gender | char(7)      | YES  |     | NULL    |                |
+| start  | date         | YES  |     | NULL    |                |
+| salary | double       | YES  |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
 
-mysql> update emp_payroll set gender ='F' where Name='pratik';
+mysql> update employee_payroll set gender = 'Female' WHERE fname = 'Terisa';
 Query OK, 1 row affected (0.00 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 
-mysql> slelct * from emp_payroll;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'slelct * from emp_payroll' at line 1
-mysql> select * from emp_payroll;
-+----+--------+--------+--------+------------+
-| ID | Name   | Gender | Salary | Start      |
-+----+--------+--------+--------+------------+
-|  1 | mrunal | M      | 100000 | 2020-08-20 |
-|  2 | kunal  | M      | 200000 | 2020-09-29 |
-|  3 | pratik | F      | 200001 | 2021-09-30 |
-|  4 | ram    | M      | 300000 | 2021-08-21 |
-+----+--------+--------+--------+------------+
+mysql> SELECT * FROM employee_payroll;
++----+---------+---------+--------+------------+-----------+
+| id | fName   | lName   | gender | start      | salary    |
++----+---------+---------+--------+------------+-----------+
+|  1 | Bill    | gate    | NULL   | 2018-01-03 |   1930238 |
+|  2 | Terisa  | William | Female | 2019-11-13 |  13527982 |
+|  3 | Charlie | gates   | NULL   | 2020-05-21 |   3232267 |
+|  4 | jeff    | gates   | NULL   | 2020-05-20 | 324343267 |
++----+---------+---------+--------+------------+-----------+
 4 rows in set (0.00 sec)
 
-mysql> select Gender,SUM(Salary)From emp_payroll GROUP BY Gender;
-+--------+-------------+
-| Gender | SUM(Salary) |
-+--------+-------------+
-| M      |      600000 |
-| F      |      200001 |
-+--------+-------------+
-2 rows in set (0.00 sec)
-
-mysql> select Gender,count(Salary)From emp_payroll GROUP BY Gender;
-+--------+---------------+
-| Gender | count(Salary) |
-+--------+---------------+
-| M      |             3 |
-| F      |             1 |
-+--------+---------------+
-2 rows in set (0.00 sec)
-
-mysql> alter table emp_payroll
-    -> ADD Phone varchar(250) after Name,
-    -> ADD Address varchar(250) after Phone,
-    -> ADD Department VARCHAR(250)NOT NULL AFTER Address;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> desc emp_payroll;
-+------------+--------------+------+-----+---------+----------------+
-| Field      | Type         | Null | Key | Default | Extra          |
-+------------+--------------+------+-----+---------+----------------+
-| ID         | int          | NO   | PRI | NULL    | auto_increment |
-| Name       | varchar(200) | NO   |     | NULL    |                |
-| Phone      | varchar(250) | YES  |     | NULL    |                |
-| Address    | varchar(250) | YES  |     | NULL    |                |
-| Department | varchar(250) | NO   |     | NULL    |                |
-| Gender     | char(1)      | YES  |     | NULL    |                |
-| Salary     | double       | NO   |     | NULL    |                |
-| Start      | date         | NO   |     | NULL    |                |
-+------------+--------------+------+-----+---------+----------------+
-8 rows in set (0.00 sec)
-
-mysql> alter table emp_payroll rename column Salary to basicPay;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> desc emp_payroll;
-+------------+--------------+------+-----+---------+----------------+
-| Field      | Type         | Null | Key | Default | Extra          |
-+------------+--------------+------+-----+---------+----------------+
-| ID         | int          | NO   | PRI | NULL    | auto_increment |
-| Name       | varchar(200) | NO   |     | NULL    |                |
-| Phone      | varchar(250) | YES  |     | NULL    |                |
-| Address    | varchar(250) | YES  |     | NULL    |                |
-| Department | varchar(250) | NO   |     | NULL    |                |
-| Gender     | char(1)      | YES  |     | NULL    |                |
-| basicPay   | double       | NO   |     | NULL    |                |
-| Start      | date         | NO   |     | NULL    |                |
-+------------+--------------+------+-----+---------+----------------+
-8 rows in set (0.00 sec)
-
-mysql> alter table emp_payroll
-    -> ADD Deduction not null AFTER basicPay,
-    -> alter table emp_payroll
-    -> ^C
-mysql> alter table emp_payroll
-    -> ADD Deduction double not null AFTER basicPay,
-    -> ADD taxable double not null AFTER Deduction,
-    -> ADD incomeTax double not null AFTER taxable,
-    -> ADD NetPay double not null AFTER incomeTax,
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
-mysql> alter table emp_payroll
-    -> ADD Deduction double not null AFTER basicPay,
-    -> ADD taxable double not null AFTER Deduction,
-    -> ADD incomeTax double not null AFTER taxable,
-    -> ADD NetPay double not null AFTER incomeTax;
-Query OK, 0 rows affected (0.01 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> desc emp_payroll;
-+------------+--------------+------+-----+---------+----------------+
-| Field      | Type         | Null | Key | Default | Extra          |
-+------------+--------------+------+-----+---------+----------------+
-| ID         | int          | NO   | PRI | NULL    | auto_increment |
-| Name       | varchar(200) | NO   |     | NULL    |                |
-| Phone      | varchar(250) | YES  |     | NULL    |                |
-| Address    | varchar(250) | YES  |     | NULL    |                |
-| Department | varchar(250) | NO   |     | NULL    |                |
-| Gender     | char(1)      | YES  |     | NULL    |                |
-| basicPay   | double       | NO   |     | NULL    |                |
-| Deduction  | double       | NO   |     | NULL    |                |
-| taxable    | double       | NO   |     | NULL    |                |
-| incomeTax  | double       | NO   |     | NULL    |                |
-| NetPay     | double       | NO   |     | NULL    |                |
-| Start      | date         | NO   |     | NULL    |                |
-+------------+--------------+------+-----+---------+----------------+
-12 rows in set (0.00 sec)
-
-mysql> insert into emp_payroll(Name,Department,Gender, basicPay, Deduction, taxablePay, incomeTax, NetPay, Start) values ('Terisa','Sales','F',400000.0,70000.0,3000.0,1500.0,400200.0,'2020-01-27'), ('Terisa','Marketing','F',500000.0,80500.0,3500.0,2500.0,400200.0,'2021-01-27');
-ERROR 1054 (42S22): Unknown column 'taxablePay' in 'field list'
-mysql> insert into emp_payroll(Name,Department,Gender, basicPay, Deduction, taxablePay, incomeTax, NetPay, Start) values ('Terisa','Sales','F',400000,70000,3000,1500,400200,'2020-01-27'), ('Terisa','Marketing','F',500000,80500,3500,2500,400200,'2021-01-27');
-ERROR 1054 (42S22): Unknown column 'taxablePay' in 'field list'
-mysql> insert into emp_payroll(Name,Department,Gender, basicPay, Deduction, taxable, incomeTax, NetPay, Start) values ('Terisa','Sales','F',400000.0,70000.0,3000.0,1500.0,400200.0,'2020-01-27'), ('Terisa','Marketing','F',500000.0,80500.0,3500.0,2500.0,400200.0,'2021-01-27');
-Query OK, 2 rows affected (0.00 sec)
-Records: 2  Duplicates: 0  Warnings: 0
-
-mysql> select * from emp_payroll;
-+----+--------+-------+---------+------------+--------+----------+-----------+---------+-----------+--------+------------+
-| ID | Name   | Phone | Address | Department | Gender | basicPay | Deduction | taxable | incomeTax | NetPay | Start      |
-+----+--------+-------+---------+------------+--------+----------+-----------+---------+-----------+--------+------------+
-|  1 | mrunal | NULL  | NULL    |            | M      |   100000 |         0 |       0 |         0 |      0 | 2020-08-20 |
-|  2 | kunal  | NULL  | NULL    |            | M      |   200000 |         0 |       0 |         0 |      0 | 2020-09-29 |
-|  3 | pratik | NULL  | NULL    |            | F      |   200001 |         0 |       0 |         0 |      0 | 2021-09-30 |
-|  4 | ram    | NULL  | NULL    |            | M      |   300000 |         0 |       0 |         0 |      0 | 2021-08-21 |
-|  5 | Terisa | NULL  | NULL    | Sales      | F      |   400000 |     70000 |    3000 |      1500 | 400200 | 2020-01-27 |
-|  6 | Terisa | NULL  | NULL    | Marketing  | F      |   500000 |     80500 |    3500 |      2500 | 400200 | 2021-01-27 |
-+----+--------+-------+---------+------------+--------+----------+-----------+---------+-----------+--------+------------+
-6 rows in set (0.00 sec)
-
-mysql> create table company (CompanyId int primary key,companyName varchar(250) not null);
-Query OK, 0 rows affected (0.01 sec)
-
-mysql> create table employee (id int unsigned not null auto_increament primary key, CompanyId int REFERENCES company(CompanyId),Name varchar(200) not null,Phone varchar(20)not null,Address varchar(50)not null default 'default',Gender char(1) not null);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'auto_increament primary key, CompanyId int REFERENCES company(CompanyId),Name va' at line 1
-mysql> create table employee (id int unsigned not null auto_increment primary key, CompanyId int REFERENCES company(CompanyId),Name varchar(200) not null,Phone varchar(20)not null,Address varchar(50)not null default 'default',Gender char(1) not null);
-Query OK, 0 rows affected (0.01 sec)
-
-mysql> create table payroll(id int references employee(id),basicPay double not null,Deduction double not null,taxable double not null,incomeTax double not null,NetPay double not null);
-Query OK, 0 rows affected (0.01 sec)
-
-mysql> create table department(deptID int primary key,deptName varchar(50) not null);
-Query OK, 0 rows affected (0.01 sec)
-
-mysql> create table emp_department(empID int references employee(Id),DeptId int references department (DeptId));
-Query OK, 0 rows affected (0.01 sec)
-
-mysql> show tables;
-+----------------------+
-| Tables_in_emppayroll |
-+----------------------+
-| company              |
-| department           |
-| emp_department       |
-| emp_payroll          |
-| employee             |
-| payroll              |
-+----------------------+
-6 rows in set (0.00 sec)
-
-
-ysql> show tables;
-+----------------------+
-| Tables_in_emppayroll |
-+----------------------+
-| company              |
-| department           |
-| emp_department       |
-| emp_payroll          |
-| employee             |
-| payroll              |
-+----------------------+
-6 rows in set (0.00 sec)
-
-mysql> insert into company values(1,"apple");
+mysql>  update employee_payroll set gender = 'male' WHERE fname = 'jeff';
 Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
 
-mysql> select * from company;
-+-----------+-------------+
-| CompanyId | companyName |
-+-----------+-------------+
-|         1 | apple       |
-+-----------+-------------+
+mysql> update employee_payroll set gender = 'male' WHERE fname = 'chalie';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employee_payroll set gender = 'male' WHERE fname = 'bill';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>  SELECT * FROM employee_payroll;
++----+---------+---------+--------+------------+-----------+
+| id | fName   | lName   | gender | start      | salary    |
++----+---------+---------+--------+------------+-----------+
+|  1 | Bill    | gate    | male   | 2018-01-03 |   1930238 |
+|  2 | Terisa  | William | Female | 2019-11-13 |  13527982 |
+|  3 | Charlie | gates   | NULL   | 2020-05-21 |   3232267 |
+|  4 | jeff    | gates   | male   | 2020-05-20 | 324343267 |
++----+---------+---------+--------+------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> update employee_payroll set gender = 'male' WHERE fname = 'charlie';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM employee_payroll;
++----+---------+---------+--------+------------+-----------+
+| id | fName   | lName   | gender | start      | salary    |
++----+---------+---------+--------+------------+-----------+
+|  1 | Bill    | gate    | male   | 2018-01-03 |   1930238 |
+|  2 | Terisa  | William | Female | 2019-11-13 |  13527982 |
+|  3 | Charlie | gates   | male   | 2020-05-21 |   3232267 |
+|  4 | jeff    | gates   | male   | 2020-05-20 | 324343267 |
++----+---------+---------+--------+------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> update employee_payroll set salary = '3000000.00' WHERE fname = 'Terisa';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM employee_payroll;
++----+---------+---------+--------+------------+-----------+
+| id | fName   | lName   | gender | start      | salary    |
++----+---------+---------+--------+------------+-----------+
+|  1 | Bill    | gate    | male   | 2018-01-03 |   1930238 |
+|  2 | Terisa  | William | Female | 2019-11-13 |   3000000 |
+|  3 | Charlie | gates   | male   | 2020-05-21 |   3232267 |
+|  4 | jeff    | gates   | male   | 2020-05-20 | 324343267 |
++----+---------+---------+--------+------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql>  SELECT AVG(salary) FROM employee_payroll WHERE gender = 'Male' GROUP BY gender;
++--------------------+
+| AVG(salary)        |
++--------------------+
+| 109835257.33333333 |
++--------------------+
 1 row in set (0.00 sec)
 
-mysql> insert into employee(CompanyId,Name,Phone,Address,Gender) VALUES (1,'SURAJ','21212232','abcd',M'),(1,'KESAV','23233',ACBC','F');
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''),(1,'KESAV','23233',ACBC','F')' at line 1
-mysql> insert into employee(CompanyId,Name,Phone,Address,Gender) VALUES (1,'SURAJ','21212232','abcd',M'),(1,'KESAV','23233','ACBC','F');
-    '> ^C
-mysql> insert into employee(CompanyId,Name,Phone,Address,Gender) VALUES (1,'SURAJ','21212232','abcd',M'),(1,'KESAV','23233','ACBC','F');
-    '> ^C
-mysql> insert into employee(CompanyId,Name,Phone,Address,Gender) VALUES (1,'SURAJ','21212232','abcd','M'),(1,'KESAV','23233','ACBC','F');
+mysql> SELECT gender, COUNT(fname) FROM employee_payroll GROUP BY gender;
++--------+--------------+
+| gender | COUNT(fname) |
++--------+--------------+
+| male   |            3 |
+| Female |            1 |
++--------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT gender, MAX(salary) FROM employee_payroll GROUP BY gender;
++--------+-------------+
+| gender | MAX(salary) |
++--------+-------------+
+| male   |   324343267 |
+| Female |     3000000 |
++--------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> desc employee_payroll;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| id     | int unsigned | NO   | PRI | NULL    | auto_increment |
+| fName  | varchar(30)  | YES  |     | NULL    |                |
+| lName  | varchar(30)  | YES  |     | NULL    |                |
+| gender | char(7)      | YES  |     | NULL    |                |
+| start  | date         | YES  |     | NULL    |                |
+| salary | double       | YES  |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> ALTER TABLE employee_payroll ADD Phone int(13);
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> LTER TABLE employee_payroll ADD Department varchar(250);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LTER TABLE employee_payroll ADD Department varchar(250)' at line 1
+mysql>  ALTER TABLE employee_payroll ADD Department varchar(250);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add address varchar(250);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+---------+---------+--------+------------+-----------+-------+------------+---------+
+| id | fName   | lName   | gender | start      | salary    | Phone | Department | address |
++----+---------+---------+--------+------------+-----------+-------+------------+---------+
+|  1 | Bill    | gate    | male   | 2018-01-03 |   1930238 |  NULL | NULL       | NULL    |
+|  2 | Terisa  | William | Female | 2019-11-13 |   3000000 |  NULL | NULL       | NULL    |
+|  3 | Charlie | gates   | male   | 2020-05-21 |   3232267 |  NULL | NULL       | NULL    |
+|  4 | jeff    | gates   | male   | 2020-05-20 | 324343267 |  NULL | NULL       | NULL    |
++----+---------+---------+--------+------------+-----------+-------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql>  alter table employee_payroll add basicPay Double;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll Add Deduction Double;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll Add TaxablePay Double;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll Add IncomeTax Double;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>  alter table employee_payroll Add NetPay Double;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>  select * from employee_payroll;
++----+---------+---------+--------+------------+-----------+-------+------------+---------+----------+-----------+------------+-----------+--------+
+| id | fName   | lName   | gender | start      | salary    | Phone | Department | address | basicPay | Deduction | TaxablePay | IncomeTax | NetPay |
++----+---------+---------+--------+------------+-----------+-------+------------+---------+----------+-----------+------------+-----------+--------+
+|  1 | Bill    | gate    | male   | 2018-01-03 |   1930238 |  NULL | NULL       | NULL    |     NULL |      NULL |       NULL |      NULL |   NULL |
+|  2 | Terisa  | William | Female | 2019-11-13 |   3000000 |  NULL | NULL       | NULL    |     NULL |      NULL |       NULL |      NULL |   NULL |
+|  3 | Charlie | gates   | male   | 2020-05-21 |   3232267 |  NULL | NULL       | NULL    |     NULL |      NULL |       NULL |      NULL |   NULL |
+|  4 | jeff    | gates   | male   | 2020-05-20 | 324343267 |  NULL | NULL       | NULL    |     NULL |      NULL |       NULL |      NULL |   NULL |
++----+---------+---------+--------+------------+-----------+-------+------------+---------+----------+-----------+------------+-----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> alter table employee_payroll add basicPay Double;
+ERROR 1060 (42S21): Duplicate column name 'basicPay'
+mysql> INSERT INTO employee_payroll (fname, gender, salary, start, Phone, Department, Address, basicPay, Deduction, TaxablePay, IncomeTax, NetPAy) VALUES ('Terisa', 'F', 3000000.00, '2018-01-03', 985628, 'Marketing', 'Mumbai', 3000000.00, 1000000.00, 2000000.00, 500000.00, 15000000.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from employee_payroll;
++----+---------+---------+--------+------------+-----------+--------+------------+---------+----------+-----------+------------+-----------+----------+
+| id | fName   | lName   | gender | start      | salary    | Phone  | Department | address | basicPay | Deduction | TaxablePay | IncomeTax | NetPay   |
++----+---------+---------+--------+------------+-----------+--------+------------+---------+----------+-----------+------------+-----------+----------+
+|  1 | Bill    | gate    | male   | 2018-01-03 |   1930238 |   NULL | NULL       | NULL    |     NULL |      NULL |       NULL |      NULL |     NULL |
+|  2 | Terisa  | William | Female | 2019-11-13 |   3000000 |   NULL | NULL       | NULL    |     NULL |      NULL |       NULL |      NULL |     NULL |
+|  3 | Charlie | gates   | male   | 2020-05-21 |   3232267 |   NULL | NULL       | NULL    |     NULL |      NULL |       NULL |      NULL |     NULL |
+|  4 | jeff    | gates   | male   | 2020-05-20 | 324343267 |   NULL | NULL       | NULL    |     NULL |      NULL |       NULL |      NULL |     NULL |
+|  5 | Terisa  | NULL    | F      | 2018-01-03 |   3000000 | 985628 | Marketing  | Mumbai  |  3000000 |   1000000 |    2000000 |    500000 | 15000000 |
++----+---------+---------+--------+------------+-----------+--------+------------+---------+----------+-----------+------------+-----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> update employee_payroll set Department = 'Sales' WHERE id = '2';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+---------+---------+--------+------------+-----------+--------+------------+---------+----------+-----------+------------+-----------+----------+
+| id | fName   | lName   | gender | start      | salary    | Phone  | Department | address | basicPay | Deduction | TaxablePay | IncomeTax | NetPay   |
++----+---------+---------+--------+------------+-----------+--------+------------+---------+----------+-----------+------------+-----------+----------+
+|  1 | Bill    | gate    | male   | 2018-01-03 |   1930238 |   NULL | NULL       | NULL    |     NULL |      NULL |       NULL |      NULL |     NULL |
+|  2 | Terisa  | William | Female | 2019-11-13 |   3000000 |   NULL | Sales      | NULL    |     NULL |      NULL |       NULL |      NULL |     NULL |
+|  3 | Charlie | gates   | male   | 2020-05-21 |   3232267 |   NULL | NULL       | NULL    |     NULL |      NULL |       NULL |      NULL |     NULL |
+|  4 | jeff    | gates   | male   | 2020-05-20 | 324343267 |   NULL | NULL       | NULL    |     NULL |      NULL |       NULL |      NULL |     NULL |
+|  5 | Terisa  | NULL    | F      | 2018-01-03 |   3000000 | 985628 | Marketing  | Mumbai  |  3000000 |   1000000 |    2000000 |    500000 | 15000000 |
++----+---------+---------+--------+------------+-----------+--------+------------+---------+----------+-----------+------------+-----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> update employee_payroll set Department = 'Sales' WHERE id = '1';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>  update employee_payroll set Department = 'Marketing' WHERE id = '3';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set Phone = '9898989989' WHERE id = '3';
+ERROR 1264 (22003): Out of range value for column 'Phone' at row 1
+mysql> update employee_payroll set Phone = '989899' WHERE id = '3';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set Phone = '85667575' WHERE id = '1' or '2';
+Query OK, 5 rows affected (0.00 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> update employee_payroll set Address = 'Mumbai' WHERE id = '1' or '2' or '3' or '4';
+Query OK, 4 rows affected (0.00 sec)
+Rows matched: 5  Changed: 4  Warnings: 0
+
+mysql> update employee_payroll set basicPay = 3000000.00 WHERE id = '1' or '2' or '3' or '4';
+Query OK, 4 rows affected (0.00 sec)
+Rows matched: 5  Changed: 4  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+---------+---------+--------+------------+-----------+----------+------------+---------+----------+-----------+------------+-----------+----------+
+| id | fName   | lName   | gender | start      | salary    | Phone    | Department | address | basicPay | Deduction | TaxablePay | IncomeTax | NetPay   |
++----+---------+---------+--------+------------+-----------+----------+------------+---------+----------+-----------+------------+-----------+----------+
+|  1 | Bill    | gate    | male   | 2018-01-03 |   1930238 | 85667575 | Sales      | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  2 | Terisa  | William | Female | 2019-11-13 |   3000000 | 85667575 | Sales      | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  3 | Charlie | gates   | male   | 2020-05-21 |   3232267 | 85667575 | Marketing  | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  4 | jeff    | gates   | male   | 2020-05-20 | 324343267 | 85667575 | NULL       | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  5 | Terisa  | NULL    | F      | 2018-01-03 |   3000000 | 85667575 | Marketing  | Mumbai  |  3000000 |   1000000 |    2000000 |    500000 | 15000000 |
++----+---------+---------+--------+------------+-----------+----------+------------+---------+----------+-----------+------------+-----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> update employee_payroll set lname = 'william' WHERE id = '5';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+---------+---------+--------+------------+-----------+----------+------------+---------+----------+-----------+------------+-----------+----------+
+| id | fName   | lName   | gender | start      | salary    | Phone    | Department | address | basicPay | Deduction | TaxablePay | IncomeTax | NetPay   |
++----+---------+---------+--------+------------+-----------+----------+------------+---------+----------+-----------+------------+-----------+----------+
+|  1 | Bill    | gate    | male   | 2018-01-03 |   1930238 | 85667575 | Sales      | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  2 | Terisa  | William | Female | 2019-11-13 |   3000000 | 85667575 | Sales      | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  3 | Charlie | gates   | male   | 2020-05-21 |   3232267 | 85667575 | Marketing  | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  4 | jeff    | gates   | male   | 2020-05-20 | 324343267 | 85667575 | NULL       | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  5 | Terisa  | william | F      | 2018-01-03 |   3000000 | 85667575 | Marketing  | Mumbai  |  3000000 |   1000000 |    2000000 |    500000 | 15000000 |
++----+---------+---------+--------+------------+-----------+----------+------------+---------+----------+-----------+------------+-----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> update wmployee_payroll set Phone="9898989";
+ERROR 1146 (42S02): Table 'employeepayroll.wmployee_payroll' doesn't exist
+mysql> update employee_payroll set Phone="9898989" where id='1';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+---------+---------+--------+------------+-----------+----------+------------+---------+----------+-----------+------------+-----------+----------+
+| id | fName   | lName   | gender | start      | salary    | Phone    | Department | address | basicPay | Deduction | TaxablePay | IncomeTax | NetPay   |
++----+---------+---------+--------+------------+-----------+----------+------------+---------+----------+-----------+------------+-----------+----------+
+|  1 | Bill    | gate    | male   | 2018-01-03 |   1930238 |  9898989 | Sales      | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  2 | Terisa  | William | Female | 2019-11-13 |   3000000 | 85667575 | Sales      | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  3 | Charlie | gates   | male   | 2020-05-21 |   3232267 | 85667575 | Marketing  | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  4 | jeff    | gates   | male   | 2020-05-20 | 324343267 | 85667575 | NULL       | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  5 | Terisa  | william | F      | 2018-01-03 |   3000000 | 85667575 | Marketing  | Mumbai  |  3000000 |   1000000 |    2000000 |    500000 | 15000000 |
++----+---------+---------+--------+------------+-----------+----------+------------+---------+----------+-----------+------------+-----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> update employee_payroll set Phone="9898989" ;
+Query OK, 4 rows affected (0.00 sec)
+Rows matched: 5  Changed: 4  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+---------+---------+--------+------------+-----------+---------+------------+---------+----------+-----------+------------+-----------+----------+
+| id | fName   | lName   | gender | start      | salary    | Phone   | Department | address | basicPay | Deduction | TaxablePay | IncomeTax | NetPay   |
++----+---------+---------+--------+------------+-----------+---------+------------+---------+----------+-----------+------------+-----------+----------+
+|  1 | Bill    | gate    | male   | 2018-01-03 |   1930238 | 9898989 | Sales      | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  2 | Terisa  | William | Female | 2019-11-13 |   3000000 | 9898989 | Sales      | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  3 | Charlie | gates   | male   | 2020-05-21 |   3232267 | 9898989 | Marketing  | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  4 | jeff    | gates   | male   | 2020-05-20 | 324343267 | 9898989 | NULL       | Mumbai  |  3000000 |      NULL |       NULL |      NULL |     NULL |
+|  5 | Terisa  | william | F      | 2018-01-03 |   3000000 | 9898989 | Marketing  | Mumbai  |  3000000 |   1000000 |    2000000 |    500000 | 15000000 |
++----+---------+---------+--------+------------+-----------+---------+------------+---------+----------+-----------+------------+-----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> pdate employee_payroll set Deductions = 9000000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'pdate employee_payroll set Deductions = 9000000' at line 1
+mysql> pdate employee_payroll set Deductions = 90;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'pdate employee_payroll set Deductions = 90' at line 1
+mysql> pdate employee_payroll set Deductions = '90';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'pdate employee_payroll set Deductions = '90'' at line 1
+mysql> update employee_payroll set Deductions = '90';
+ERROR 1054 (42S22): Unknown column 'Deductions' in 'field list'
+mysql> update employee_payroll set Deductions = 90;
+ERROR 1054 (42S22): Unknown column 'Deductions' in 'field list'
+mysql> update employee_payroll set Department = 'Sales' WHERE id = '2';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> CREATE TABLE Department ( department varchar(250) NOT NULL, PRIMARY KEY (department) );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>  INSERT INTO Department ( department ) VALUES ('Sales'),('Marketing');
 Query OK, 2 rows affected (0.00 sec)
 Records: 2  Duplicates: 0  Warnings: 0
 
-mysql> show * from employee;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from employee' at line 1
-mysql> select * from employee;
-+----+-----------+-------+----------+---------+--------+
-| id | CompanyId | Name  | Phone    | Address | Gender |
-+----+-----------+-------+----------+---------+--------+
-|  1 |         1 | SURAJ | 21212232 | abcd    | M      |
-|  2 |         1 | KESAV | 23233    | ACBC    | F      |
-+----+-----------+-------+----------+---------+--------+
+mysql> SELECT * FROM Department;
++------------+
+| department |
++------------+
+| Marketing  |
+| Sales      |
++------------+
 2 rows in set (0.00 sec)
 
-mysql> insert into department values (1,'sales'),(2,'marketing');
+mysql> CREATE TABLE Employee ( id int, compID int, PhoneNumbe BIGINT(13), Address varchar(25), gender char(1),PRIMARY KEY (id) );
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql>  INSERT INTO Employee (id, compID, PhoneNumbe, Address, gender) VALUES ( 1, 10, 987382434, 'pune', 'F'),(2, 11, 234322344, 'Mumbai', 'M');
 Query OK, 2 rows affected (0.00 sec)
 Records: 2  Duplicates: 0  Warnings: 0
 
-mysql> select * from employee;
-+----+-----------+-------+----------+---------+--------+
-| id | CompanyId | Name  | Phone    | Address | Gender |
-+----+-----------+-------+----------+---------+--------+
-|  1 |         1 | SURAJ | 21212232 | abcd    | M      |
-|  2 |         1 | KESAV | 23233    | ACBC    | F      |
-+----+-----------+-------+----------+---------+--------+
+mysql>  CREATE TABLE Emp_Department (empID int, Depart varchar(250) NOT NULL, FOREIGN KEY (empID) REFERENCES Employee (id),FOREIGN KEY (Depart) REFERENCES Department (department), PRIMARY KEY (empID, Depart));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> describe Emp_Department;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| empID  | int          | NO   | PRI | NULL    |       |
+| Depart | varchar(250) | NO   | PRI | NULL    |       |
++--------+--------------+------+-----+---------+-------+
 2 rows in set (0.00 sec)
 
-mysql> select * from department
-    -> select * from department
-    -> ^C
-mysql> Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-    ->
-    -> mysql> show databases;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql> INSERT INTO Emp_Department (empID, Depart) VALUES (1, 'Marketing');
+Query OK, 1 row affected (0.00 sec)
 
-' at line 1
-mysql> +--------------------+
-    -> | Database           |
-    -> +--------------------+
-    -> | addressbookservice |
-    -> | employeedb         |
-    -> | employeeedb        |
-    -> | information_schema |
-    -> | mysql              |
-    -> | payroll_service    |
-    -> | performance_schema |
-    -> | sys                |
-    -> +--------------------+
-    -> 8 rows in set (0.00 sec)
-    ->
-    -> mysql> create empPayroll database;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '+--------------------+
-| Database           |
-+--------------------+
-| addressbo' at line 1
-mysql> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'empPayroll database' at line 1
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ERROR 1064 (42000): You have an error in your SQL syntax' at line 1
-    -> mysql> create empPayroll;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'the manual that corresponds to your MySQL server version for the right syntax to' at line 1
-mysql> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'empPayroll' at line 1
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ERROR 1064 (42000): You have an error in your SQL syntax' at line 1
-    -> mysql> create database empPayroll;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'the manual that corresponds to your MySQL server version for the right syntax to' at line 1
-mysql> Query OK, 1 row affected (0.00 sec)
-    ->
-    -> mysql> use empPayroll;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Query OK, 1 row affected (0.00 sec)
+mysql> INSERT INTO Emp_Department (empID, Depart) VALUES (1, 'Sales');
+Query OK, 1 row affected (0.00 sec)
 
-mysql> use empPayroll' at line 1
-mysql> Database changed
-    -> mysql> create table emp_payroll(ID int not null auto_increament,Name varchar(200)not null,Salary double not null,Start date not null,primary key(ID));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Database changed
-mysql> create table emp_payroll(ID int not null auto_increament' at line 1
-mysql> ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'auto_increament,Name varchar(200)not null,Salary double not null,Start date not ' at line 1
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ERROR 1064 (42000): You have an error in your SQL syntax' at line 1
-    -> mysql> create table emp_payroll(ID int not null auto_increment,Name varchar(200)not null,Salary double not null,Start date not null,primary key(ID));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'the manual that corresponds to your MySQL server version for the right syntax to' at line 1
-mysql> Query OK, 0 rows affected (0.01 sec)
-    ->
-    
-    mysql> select * from department;
-+--------+-----------+
-| deptID | deptName  |
-+--------+-----------+
-|      1 | sales     |
-|      2 | marketing |
-+--------+-----------+
-2 rows in set (0.00 sec)
+mysql>  INSERT INTO Emp_Department (empID, Depart) VALUES (2, 'Sales');
+Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into payroll values (1,20000,420,3000,500,10000),(2,9000,150,3000,400,2020);
-Query OK, 2 rows affected (0.00 sec)
-Records: 2  Duplicates: 0  Warnings: 0
+mysql>  INSERT INTO Emp_Department (empID, Depart) VALUES (2, 'Marketing');
+Query OK, 1 row affected (0.00 sec)
 
-mysql> select * from payroll;
-+------+----------+-----------+---------+-----------+--------+
-| id   | basicPay | Deduction | taxable | incomeTax | NetPay |
-+------+----------+-----------+---------+-----------+--------+
-|    1 |    20000 |       420 |    3000 |       500 |  10000 |
-|    2 |     9000 |       150 |    3000 |       400 |   2020 |
-+------+----------+-----------+---------+-----------+--------+
-2 rows in set (0.00 sec)
-
-mysql> insert into employee_department values (1,1),(2,2);
-ERROR 1146 (42S02): Table 'emppayroll.employee_department' doesn't exist
-mysql> insert into emp_department values (1,1),(2,2);
-Query OK, 2 rows affected (0.00 sec)
-Records: 2  Duplicates: 0  Warnings: 0
-
-mysql> select * from emp_department;
-+-------+--------+
-| empID | DeptId |
-+-------+--------+
-|     1 |      1 |
-|     2 |      2 |
-+-------+--------+
-2 rows in set (0.00 sec)
+mysql> SELECT * FROM Emp_Department;
++-------+-----------+
+| empID | Depart    |
++-------+-----------+
+|     1 | Marketing |
+|     2 | Marketing |
+|     1 | Sales     |
+|     2 | Sales     |
++-------+-----------+
+4 rows in set (0.00 sec)
 
 mysql>
-
-
-    
